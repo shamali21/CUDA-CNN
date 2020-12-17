@@ -17,11 +17,9 @@ Layer::Layer(int M, int N, int O)
 
 	for (int i = 0; i < N; ++i) {
 		h_bias[i] = 0.5f - float(rand()) / float(RAND_MAX);
-		/*h_bias[i] = 0.0f;*/
 
 		for (int j = 0; j < M; ++j) {
 			h_weight[i][j] = 0.5f - float(rand()) / float(RAND_MAX);
-			/*h_weight[i][j] = 0.05f;*/
 		}
 	}
 

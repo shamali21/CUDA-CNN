@@ -4,10 +4,6 @@
 
 #include "include/mnist_file.h"
 
-/**
- * Convert from the big endian format in the dataset if we're on a little endian
- * machine.
- */
 uint32_t map_uint32(uint32_t in)
 {
 #if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
@@ -22,11 +18,6 @@ uint32_t map_uint32(uint32_t in)
 #endif
 }
 
-/**
- * Read labels from file.
- * 
- * File format: http://yann.lecun.com/exdb/mnist/
- */
 uint8_t * get_labels(const char * path, uint32_t * number_of_labels)
 {
     FILE * stream;
@@ -77,11 +68,6 @@ uint8_t * get_labels(const char * path, uint32_t * number_of_labels)
     return labels;
 }
 
-/**
- * Read images from file.
- * 
- * File format: http://yann.lecun.com/exdb/mnist/
- */
 mnist_image_t * get_images(const char * path, uint32_t * number_of_images)
 {
     FILE * stream;
@@ -177,10 +163,6 @@ mnist_dataset_t * mnist_get_dataset(const char * image_path, const char * label_
     return dataset;
 }
 
-/**
- * Free all the memory allocated in a dataset. This should not be used on a
- * batched dataset as the memory is allocated to the parent.
- */
 void mnist_free_dataset(mnist_dataset_t * dataset)
 {
     free(dataset->images);
@@ -188,9 +170,6 @@ void mnist_free_dataset(mnist_dataset_t * dataset)
     free(dataset);
 }
 
-/**
- * Fills the batch dataset with a subset of the parent dataset.
- */
 int mnist_batch(mnist_dataset_t * dataset, mnist_dataset_t * batch, int size, int number)
 {
     int start_offset;

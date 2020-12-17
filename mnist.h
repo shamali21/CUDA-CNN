@@ -1,30 +1,20 @@
 #ifndef __MNIST_H__
 #define __MNIST_H__
 
-/*
- * MNIST loader by Nuri Park - https://github.com/projectgalateia/mnist
- */
 
-#ifdef USE_MNIST_LOADER /* Fundamental macro to make the code active */
+#ifdef USE_MNIST_LOADER 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/*
- * Make mnist_load function static.
- * Define when the header is included multiple time.
- */
 #ifdef MNIST_STATIC
 #define _STATIC static
 #else
 #define _STATIC 
 #endif
 
-/*
- * Make mnist loader to load image data as double type.
- * It divides unsigned char values by 255.0, so the results ranges from 0.0 to 1.0
- */
+
 #ifdef MNIST_DOUBLE
 #define MNIST_DATA_TYPE double
 #else
@@ -32,13 +22,10 @@ extern "C" {
 #endif
 
 typedef struct mnist_data {
-	MNIST_DATA_TYPE data[28][28]; /* 28x28 data for the image */
-	unsigned int label; /* label : 0 to 9 */
+	MNIST_DATA_TYPE data[28][28];
+	unsigned int label; 
 } mnist_data;
 
-/*
- * If it's header inclusion, make only function prototype visible.
- */
 #ifdef MNIST_HDR_ONLY
 
 _STATIC int mnist_load(
@@ -53,10 +40,6 @@ _STATIC int mnist_load(
 #include <stdlib.h>
 #include <string.h>
 
-/*
- * Load a unsigned int from raw data.
- * MSB first.
- */
 static unsigned int mnist_bin_to_int(char *v)
 {
 	int i;
@@ -70,12 +53,6 @@ static unsigned int mnist_bin_to_int(char *v)
 	return ret;
 }
 
-/*
- * MNIST dataset loader.
- *
- * Returns 0 if successed.
- * Check comments for the return codes.
- */
 _STATIC int mnist_load(
 	const char *image_filename,
 	const char *label_filename,
@@ -93,19 +70,19 @@ _STATIC int mnist_load(
 	FILE *lfp = fopen(label_filename, "rb");
 
 	if (!ifp || !lfp) {
-		return_code = -1; /* No such files */
+		return_code = -1; 
 		goto cleanup;
 	}
 
 	fread(tmp, 1, 4, ifp);
 	if (mnist_bin_to_int(tmp) != 2051) {
-		return_code = -2; /* Not a valid image file */
+		return_code = -2; 
 		goto cleanup;
 	}
 
 	fread(tmp, 1, 4, lfp);
 	if (mnist_bin_to_int(tmp) != 2049) {
-		return_code = -3; /* Not a valid label file */
+		return_code = -3; 
 		goto cleanup;
 	}
 
@@ -116,7 +93,7 @@ _STATIC int mnist_load(
 	label_cnt = mnist_bin_to_int(tmp);
 
 	if (image_cnt != label_cnt) {
-		return_code = -4; /* Element counts of 2 files mismatch */
+		return_code = -4; 
 		goto cleanup;
 	}
 
@@ -126,7 +103,7 @@ _STATIC int mnist_load(
 	}
 
 	if (image_dim[0] != 28 || image_dim[1] != 28) {
-		return_code = -2; /* Not a valid image file */
+		return_code = -2; 
 		goto cleanup;
 	}
 
@@ -159,12 +136,12 @@ cleanup:
 	return return_code;
 }
 
-#endif /* MNIST_HDR_ONLY */
+#endif 
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* USE_MNIST_LOADER */
-#endif /* __MNIST_H__ */
+#endif 
+#endif
 
